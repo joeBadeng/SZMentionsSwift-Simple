@@ -8,5 +8,5 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/joeBadeng/SZMentionsSwift-Simple.git', :tag => s.version.to_s } # ⚠️ 注意这里引用了标签
   s.ios.deployment_target = '9.0'
   s.swift_version = '5.0'
-  s.source_files = 'Sources/**/*.swift' # ⚠️ 确保这个路径能指向你的 Swift 源码
+  s.source_files = 'Classes/**/*.swift' # ⚠️ 确保这个路径能指向你的 Swift 源码
 end
