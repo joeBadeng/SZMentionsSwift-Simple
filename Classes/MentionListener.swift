@@ -9,6 +9,8 @@
 import UIKit
 
 public class MentionListener: NSObject {
+    
+    var maxTextCount: Int
     /**
      @brief Array list of mentions managed by listener, accessible via the
      public mentions property.
@@ -125,6 +127,7 @@ public class MentionListener: NSObject {
      */
     public init(
         mentionsTextView: UITextView,
+        maxTextCount: Int,
         delegate: UITextViewDelegate? = nil,
         mentionTextAttributes: ((CreateMention?) -> [AttributeContainer])? = nil,
         defaultTextAttributes: [AttributeContainer]? = nil,
@@ -147,6 +150,7 @@ public class MentionListener: NSObject {
 
         self.searchSpaces = searchSpaces
         self.mentionsTextView = mentionsTextView
+        self.maxTextCount = maxTextCount
         self.delegate = delegate
         self.spaceAfterMention = spaceAfterMention
         self.triggers = triggers
@@ -343,9 +347,9 @@ extension MentionListener: UITextViewDelegate {
         let newLength = currentLength - range.length + (text as NSString).length
         
         // 判断是否超过限制
-        if newLength > 20 {
+        if newLength > maxTextCount {
             // 如果当前已经达到或超过限制
-            if currentLength >= 20 {
+            if currentLength >= maxTextCount {
                 // 允许删除操作（replacementText 为空表示删除）
                 if text.isEmpty && range.length > 0 {
                     // 继续执行原有逻辑
@@ -353,7 +357,7 @@ extension MentionListener: UITextViewDelegate {
                 // 允许替换操作（既有删除又有插入）
                 else if !text.isEmpty && range.length > 0 {
                     // 检查替换后是否超过限制
-                    if currentLength - range.length + (text as NSString).length <= 20 {
+                    if currentLength - range.length + (text as NSString).length <= maxTextCount {
                         // 继续执行原有逻辑
                     } else {
                         // 替换后会超过限制，不允许
